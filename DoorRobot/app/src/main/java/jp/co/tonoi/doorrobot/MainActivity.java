@@ -1,5 +1,6 @@
 package jp.co.tonoi.doorrobot;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,9 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        WebView mWebView = (WebView) findViewById(R.id.webview);
+        WebSettings mWebSettings = mWebView.getSettings();
+        mWebSettings.setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.addJavascriptInterface(new JavaScriptInterface(this), "tonoi");
+        //mWebView.loadUrl("http://www.tonoi.co.jp/voice.html");
+        mWebView.loadUrl("file:///android_asset/voice.html");
     }
 
     @Override
